@@ -2,7 +2,7 @@
 
 ## 1. Datos del Alumno
 
-**Nombre completo:** [Escribe tu nombre aquí]
+**Nombre completo:** [Francisco Valcárcel Lardin]
 
 ---
 
@@ -10,6 +10,8 @@
 
 ### Descripción
 [Breve descripción de qué servicios corren en LOCAL: base de datos MySQL, frontends con hot reload, backend desde IDE, phpMyAdmin]
+
+- 
 
 ### Capturas de Ejecución
 
