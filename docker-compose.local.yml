@@ -1,24 +1,40 @@
 services:
-  api:
-    build: .
-    container_name: iker-rios
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: stranger_web
+    environment:
+      # El frontend busca el backend en la red local de Docker
+      API_BACKEND_URL: http://host.docker.internal:8080/api 
+    ports:
+      "8084:80"
+    volumes:
+      ./frontend:/var/www/html
+    depends_on:
+      # Dependencia del nuevo servicio
+      - mariadb
+
+  mariadb:
+    # Usar la imagen oficial de MariaDB
+    image: mariadb:10.6
+    container_name: mariadb_stranger # Nombre del contenedor
     restart: always
     environment:
-      SPRING_PROFILES_ACTIVE: local
+      # Variables de entorno para configurar la base de datos
+      MYSQL_ROOT_PASSWORD: app_root_password
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      MYSQL_DATABASE: stranger
     ports:
-      - "8081:8080"
-
-  db:
-    image: mysql:8.0
-    container_name: pikoss               
-    environment:
-      MYSQL_ROOT_PASSWORD: root            
-    restart: always
-    volumes :
-      - ./sql/mysql:/docker-entrypoint-initdb.d 
-      - db_data:/var/lib/mysql
-    ports:
-      - "3307:3306"
-
-volumes:
-  db_data:   
+      # Mapear el puerto estándar 3306 al host
+      - "3306:3306"
+    volumes:
+      # Si tienes scripts de inicialización, usa esta ruta
+      - ./backend/sql/mariadb:/docker-entrypoint-initdb.d
+      # Opcional: Volumen para persistencia de datos
+      # - mariadb_data:/var/lib/mysql
+    
+build:
+  context: ./frontend-movies
+  dockerfile: Dockerfile

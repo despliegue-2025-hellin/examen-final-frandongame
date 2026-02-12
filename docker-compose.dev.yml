@@ -5,3 +5,7 @@ services:
       SPRING_PROFILES_ACTIVE: neon
     ports:
       - "8080:8080"
+
+build:
+  context: ./frontend-movies
+  dockerfile: Dockerfile
