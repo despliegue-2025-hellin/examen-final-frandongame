@@ -15,29 +15,29 @@ services:
       - db-actors
 
   db-movies:
-    image: PostgreSQL
+    image: postgres:16
     container_name: db-movies
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: app_root_password
-      MYSQL_USER: movies-user
-      MYSQL_PASSWORD: movies-pass
-      MYSQL_DATABASE: movies_db
+      POSTGRES_ROOT_PASSWORD: app_root_password
+      POSTGRES_USER: movies_user
+      POSTGRES_PASSWORD: movies_pass
+      POSTGRES_DATABASE: movies_db
     ports:
       - "5432:5432"
     volumes:
-      - ./api-movies/sql/:/docker-entrypoint-initdb.d
+      - ./api-movies/sql/local:/docker-entrypoint-initdb.d
 
   db-actors:
-    image: PostgreSQL
+    image: postgres:16
     container_name: db-actors
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: app_root_password
-      MYSQL_USER: movies-user
-      MYSQL_PASSWORD: movies-pass
-      MYSQL_DATABASE: movies_db
+      POSTGRES_ROOT_PASSWORD: app_root_password
+      POSTGRES_USER: movies_user
+      POSTGRES_PASSWORD: movies_pass
+      POSTGRES_DATABASE: actors_db
     ports:
-      - "5432:5432"
+      - "5433:5433"
     volumes:
-      - ./api-actors/sql/:/docker-entrypoint-initdb.d
+      - ./api-actors/sql/local:/docker-entrypoint-initdb.d
