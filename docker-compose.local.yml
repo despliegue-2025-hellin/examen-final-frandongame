@@ -22,7 +22,7 @@ services:
       POSTGRES_ROOT_PASSWORD: app_root_password
       POSTGRES_USER: movies_user
       POSTGRES_PASSWORD: movies_pass
-      POSTGRES_DATABASE: movies_db
+      POSTGRES_DB: movies_db
     ports:
       - "5432:5432"
     volumes:
@@ -36,7 +36,7 @@ services:
       POSTGRES_ROOT_PASSWORD: app_root_password
       POSTGRES_USER: movies_user
       POSTGRES_PASSWORD: movies_pass
-      POSTGRES_DATABASE: actors_db
+      POSTGRES_DB: actors_db
     ports:
       - "5433:5433"
     volumes:
