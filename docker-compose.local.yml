@@ -5,11 +5,11 @@ services:
       dockerfile: Dockerfile
     container_name: frontend-movies
     environment:
-      API_BACKEND_URL: http://host.docker.internal:8080/api 
+      API_BACKEND_URL: http://host.docker.internal:8080/api
     ports:
-      "8080:80"
+      - "8080:80"
     volumes:
-      ./frontend-movies:/var/www/html
+      - ./frontend-movies:/var/www/html
     depends_on:
       - db-movies
       - db-actors
@@ -30,7 +30,7 @@ services:
 
   db-actors:
     image: PostgreSQL
-    container_name: db-movies
+    container_name: db-actors
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: app_root_password
@@ -40,8 +40,4 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./api-movies/sql/:/docker-entrypoint-initdb.d
-    
-build:
-  context: ./frontend-movies
-  dockerfile: Dockerfile
+      - ./api-actors/sql/:/docker-entrypoint-initdb.d
