@@ -1,11 +1,64 @@
 services:
-  api:
-    build: .
+  frontend-movies:
+    build:
+      context: ./frontend-movies
+      dockerfile: Dockerfile
+    container_name: frontend-movies
     environment:
-      SPRING_PROFILES_ACTIVE: neon
+      API_MOVIES_URL: http://localhost:8081/api/movies
+      API_ACTORS_URL: http://localhost:8082/api/actors
     ports:
-      - "8080:8080"
+      - "8080:80"
+    volumes:
+      - ./frontend-movies:/var/www/html
+    depends_on:
+      - db-movies
+      - db-actors
 
-build:
-  context: ./frontend-movies
-  dockerfile: Dockerfile
+  db-movies:
+    image: postgres:16
+    container_name: db-movies
+    restart: always
+    environment:
+      POSTGRES_ROOT_PASSWORD: app_root_password
+      POSTGRES_USER: movies_user
+      POSTGRES_PASSWORD: movies_pass
+      POSTGRES_DB: movies_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./api-movies/sql/local:/docker-entrypoint-initdb.d
+
+  db-actors:
+    image: postgres:16
+    container_name: db-actors
+    restart: always
+    environment:
+      POSTGRES_ROOT_PASSWORD: app_root_password
+      POSTGRES_USER: movies_user
+      POSTGRES_PASSWORD: movies_pass
+      POSTGRES_DB: actors_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./api-actors/sql/local:/docker-entrypoint-initdb.d
+
+  api_movies:
+    build:
+      context: ./api-movies
+      dockerfile: Dockerfile
+    container_name: api_movies
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8081:8080"
+
+  api_actors:
+    build:
+      context: ./api-actors
+      dockerfile: Dockerfile
+    container_name: api_actors
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8082:8080"

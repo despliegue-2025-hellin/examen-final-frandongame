@@ -9,6 +9,16 @@
             "projectName": "movies-api",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ActorsApplication<actors-api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.hellin.actors.ActorsApplication",
+            "projectName": "actors-api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
