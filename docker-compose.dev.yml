@@ -5,15 +5,15 @@ services:
       dockerfile: Dockerfile
     container_name: frontend-movies
     environment:
-      API_MOVIES_URL: http://localhost:8081/api/movies
-      API_ACTORS_URL: http://localhost:8082/api/actors
+      API_MOVIES_URL: http://api-movies:8081/api/movies
+      API_ACTORS_URL: http://api-actors:8082/api/actors
     ports:
       - "8080:80"
     volumes:
       - ./frontend-movies:/var/www/html
     depends_on:
-      - db-movies
-      - db-actors
+      - api-movies
+      - api-actors
 
   db-movies:
     image: postgres:16
@@ -43,21 +43,21 @@ services:
     volumes:
       - ./api-actors/sql/local:/docker-entrypoint-initdb.d
 
-  api_movies:
+  api-movies:
     build:
       context: ./api-movies
       dockerfile: Dockerfile
-    container_name: api_movies
+    container_name: api-movies
     environment:
       SPRING_PROFILES_ACTIVE: dev
     ports:
       - "8081:8080"
 
-  api_actors:
+  api-actors:
     build:
       context: ./api-actors
       dockerfile: Dockerfile
-    container_name: api_actors
+    container_name: api-actors
     environment:
       SPRING_PROFILES_ACTIVE: dev
     ports:
